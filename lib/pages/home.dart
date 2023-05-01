@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:online_payment_app/services/common.dart';
+import 'package:dio/dio.dart';
+import 'package:online_payment_app/env/env.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.mobileNumber});
+
+  final String mobileNumber;
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  final dio = Dio();
+  String balance = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _configureDio();
+    _getData();
+  }
+
+  void _configureDio() {
+    dio.options.baseUrl = Env.baseUrl;
+    dio.options.connectTimeout = const Duration(seconds: 5);
+    dio.options.receiveTimeout = const Duration(seconds: 3);
+  }
+
+  void _getData() async {
+    Response response = await dio
+        .post('/account/balance', data: {'mobileNumber': widget.mobileNumber});
+    balance = response.data['balance'];
+    balance = '￥$balance';
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,13 +74,13 @@ class _HomeState extends State<Home> {
           ),
           BaseCard(
             child: Column(
-              children: const [
+              children: [
                 HomeListTile(
                   title: '余额',
                   assetPath: 'assets/icons/yuan.png',
-                  comment: '￥666.66',
+                  comment: balance,
                 ),
-                HomeListTile(
+                const HomeListTile(
                   title: '银行卡',
                   assetPath: 'assets/icons/credit.png',
                 ),

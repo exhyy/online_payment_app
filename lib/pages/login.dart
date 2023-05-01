@@ -78,7 +78,12 @@ class _LoginState extends State<Login> {
     if (response.data.toString() == 'pass' && mounted) {
       _showToast(true);
       // 跳转到Home并且不允许返回
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Home()), (route) => false);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => Home(
+                    mobileNumber: mobileNumberController.text,
+                  )),
+          (route) => false);
     } else {
       _showToast(false);
     }
