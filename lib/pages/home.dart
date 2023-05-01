@@ -15,6 +15,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final dio = Dio();
   String balance = '';
+  List<int> accountIds = [];
+  List<Map> recentPayments = [];
 
   @override
   void initState() {
@@ -30,10 +32,29 @@ class _HomeState extends State<Home> {
   }
 
   void _getData() async {
+    // 获取当前user所有账户id
     Response response = await dio
-        .post('/account/balance', data: {'mobileNumber': widget.mobileNumber});
+        .post('/account/getall', data: {'mobileNumber': widget.mobileNumber});
+    accountIds = response.data.cast<int>();
+
+    // 获取首个账户id的余额
+    response =
+        await dio.post('/account/balance', data: {'accountId': accountIds[0]});
     balance = response.data['balance'];
     balance = '￥$balance';
+
+    // 获取“近期交易”，记录不超过3条
+    response = await dio
+        .post('/account/payment/preview', data: {'accountId': accountIds[0]});
+    List<Map> allPayments = response.data.cast<Map>();
+    allPayments.sort((a, b) => a['time'].compareTo(b['time']));
+    for (var i = allPayments.length - 1; i >= 0; i--) {
+      recentPayments.add(allPayments[i]);
+      if (i <= allPayments.length - 3) {
+        break;
+      }
+    }
+
     setState(() {});
   }
 
@@ -72,6 +93,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+          const SizedBox(height: 15),
           BaseCard(
             child: Column(
               children: [
@@ -87,19 +109,54 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+          const SizedBox(height: 15),
           const BaseCard(
             child: HomeListTile(
               title: '信息',
               assetPath: 'assets/icons/driver-license.png',
             ),
           ),
+          const SizedBox(height: 15),
           BaseCard(
             child: Column(
-              children: const [
-                HomeListTile(
+              children: [
+                const HomeListTile(
                   title: '近期交易',
                   assetPath: 'assets/icons/invoice.png',
                 ),
+                SizedBox(
+                  height: 210,
+                  child: ListView.separated(
+                    itemCount: recentPayments.length,
+                    separatorBuilder: (context, index) => const Divider(
+                        height: 2.0, color: Color.fromRGBO(0, 0, 0, 0.6)),
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                        leading: Text(
+                          recentPayments[index]['name'],
+                          style: const TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
+                        title: Text(
+                          recentPayments[index]['time']
+                              .toString()
+                              .substring(0, 10),
+                          style: const TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
+                        trailing: Text(
+                          '-￥${recentPayments[index]['amount'].toString()}',
+                          style: const TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
           )
