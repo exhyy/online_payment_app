@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_payment_app/pages/infomation_modify.dart';
 import 'package:online_payment_app/services/common.dart';
 import 'package:dio/dio.dart' show Response;
 
@@ -46,8 +47,8 @@ class _InfomationState extends State<Infomation> {
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: SizedBox(
-                          width: 110,
-                          child: Text(
+                        width: 110,
+                        child: Text(
                           '${info[index]['title']}',
                           style: const TextStyle(
                             fontSize: 22,
@@ -67,7 +68,13 @@ class _InfomationState extends State<Infomation> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(
+                          builder: (context) =>
+                              InfomationModify(accountId: widget.accountId)))
+                      .then((value) => _getData());
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
                 ),
