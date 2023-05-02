@@ -28,9 +28,20 @@ class MyScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget? leading;
+    if (Navigator.of(context).canPop()) {
+      leading = IconButton(
+        icon: const Icon(Icons.chevron_left),
+        iconSize: 45,
+        color: const Color.fromRGBO(160, 160, 160, 1.0),
+        onPressed: () => Navigator.of(context).pop(),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(242, 242, 242, 1.0),
       appBar: AppBar(
+        leading: leading,
         title: Text(
           title,
           style: const TextStyle(

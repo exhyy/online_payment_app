@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:online_payment_app/services/common.dart';
 import 'package:dio/dio.dart';
 import 'package:online_payment_app/env/env.dart';
@@ -88,10 +89,12 @@ class _HomeState extends State<Home> {
                   title: '余额',
                   assetPath: 'assets/icons/yuan.png',
                   comment: balance,
+                  onPressed: null,
                 ),
                 const HomeListTile(
                   title: '银行卡',
                   assetPath: 'assets/icons/credit.png',
+                  onPressed: null,
                 ),
               ],
             ),
@@ -101,15 +104,21 @@ class _HomeState extends State<Home> {
             child: HomeListTile(
               title: '信息',
               assetPath: 'assets/icons/driver-license.png',
+              onPressed: null,
             ),
           ),
           const SizedBox(height: 15),
           BaseCard(
             child: Column(
               children: [
-                const HomeListTile(
+                HomeListTile(
                   title: '近期交易',
                   assetPath: 'assets/icons/invoice.png',
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            PaymentList(accountId: accountIds[0])));
+                  },
                 ),
                 SizedBox(
                   height: 210,
@@ -119,7 +128,8 @@ class _HomeState extends State<Home> {
                         height: 2.0, color: Color.fromRGBO(0, 0, 0, 0.6)),
                     itemBuilder: (context, index) {
                       return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 6, horizontal: 20),
                         leading: Text(
                           recentPayments[index]['name'],
                           style: const TextStyle(
@@ -157,12 +167,14 @@ class HomeListTile extends StatelessWidget {
   final String assetPath;
   final String title;
   final String? comment;
+  final void Function()? onPressed;
 
   const HomeListTile({
     super.key,
     required this.title,
     required this.assetPath,
     this.comment,
+    required this.onPressed,
   });
 
   @override
@@ -176,9 +188,11 @@ class HomeListTile extends StatelessWidget {
         ),
       ));
     }
-    trailingChildren.add(const Icon(
-      Icons.chevron_right,
-      size: 35,
+    trailingChildren.add(IconButton(
+      icon: const Icon(Icons.chevron_right),
+      iconSize: 35,
+      splashRadius: 0.00001,
+      onPressed: onPressed,
     ));
 
     return ListTile(

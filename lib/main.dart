@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_payment_app/pages/home.dart';
 import 'package:online_payment_app/pages/login.dart';
+import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
@@ -9,8 +10,9 @@ void main() {
     debugShowCheckedModeBanner: false,
     initialRoute: '/home',
     routes: {
-      '/home': (context) => const Home(mobileNumber: '12345678909'),
       '/login': (context) => const Login(),
+      '/home': (context) => const Home(mobileNumber: '12345678909'),
+      '/payment_list': (context) => const PaymentList(accountId: 1),
     },
   ));
 }
