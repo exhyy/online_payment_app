@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_payment_app/pages/bank_card_add.dart';
 import 'package:online_payment_app/services/common.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -42,7 +43,16 @@ class _BankCardState extends State<BankCard> {
           color: Color.fromRGBO(160, 160, 160, 1.0),
           size: 32,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(
+                  builder: (context) =>
+                      BankCardAdd(accountId: widget.accountId)))
+              .then((value) {
+            _getData();
+            _fToast.init(context);
+          });
+        },
       ),
       body: BaseCard(
         child: Container(
