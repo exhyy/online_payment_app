@@ -39,6 +39,7 @@ dependencies:
   envied: ^0.3.0
   fluttertoast: ^8.2.1
   flutter_holo_date_picker: ^1.1.0
+  flutter_slidable: ^3.0.0
 
 dev_dependencies:
   flutter_test:

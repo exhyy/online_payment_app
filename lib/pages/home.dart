@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_payment_app/pages/bank_card.dart';
 import 'package:online_payment_app/pages/infomation.dart';
 import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:online_payment_app/services/common.dart';
@@ -83,10 +84,14 @@ class _HomeState extends State<Home> {
                   comment: balance,
                   onPressed: null,
                 ),
-                const HomeListTile(
+                HomeListTile(
                   title: '银行卡',
                   assetPath: 'assets/icons/credit.png',
-                  onPressed: null,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BankCard(accountId: accountIds[0]),
+                    ));
+                  },
                 ),
               ],
             ),

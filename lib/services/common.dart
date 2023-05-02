@@ -34,7 +34,9 @@ class BaseCard extends StatelessWidget {
 class MyScaffold extends StatelessWidget {
   final String title;
   final Widget body;
-  const MyScaffold({super.key, required this.title, required this.body});
+  final Widget? appBarAction;
+  const MyScaffold(
+      {super.key, required this.title, required this.body, this.appBarAction});
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +49,18 @@ class MyScaffold extends StatelessWidget {
         onPressed: () => Navigator.of(context).pop(),
       );
     }
+    List<Widget>? actions = [];
+    if (appBarAction != null) {
+      actions.add(appBarAction!);
+    } else {
+      actions = null;
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(242, 242, 242, 1.0),
       appBar: AppBar(
         leading: leading,
+        actions: actions,
         title: Text(
           title,
           style: const TextStyle(
