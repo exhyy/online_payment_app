@@ -60,21 +60,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 242, 242, 1.0),
-      appBar: AppBar(
-        title: const Text(
-          '钱包',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-            fontSize: 28,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: const Color.fromRGBO(242, 242, 242, 1.0),
-      ),
+    return MyScaffold(
+      title: '钱包',
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
