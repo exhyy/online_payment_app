@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_payment_app/pages/infomation.dart';
 import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:online_payment_app/services/common.dart';
 import 'package:dio/dio.dart' show Response;
@@ -91,11 +92,15 @@ class _HomeState extends State<Home> {
             ),
           ),
           const SizedBox(height: 15),
-          const BaseCard(
+          BaseCard(
             child: HomeListTile(
               title: '信息',
               assetPath: 'assets/icons/driver-license.png',
-              onPressed: null,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        Infomation(accountId: accountIds[0])));
+              },
             ),
           ),
           const SizedBox(height: 15),
