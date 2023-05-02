@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:online_payment_app/env/env.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_payment_app/pages/home.dart';
+import 'package:online_payment_app/services/common.dart';
+import 'package:dio/dio.dart' show Response;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,7 +15,6 @@ class _LoginState extends State<Login> {
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  final dio = Dio();
   late FToast fToast;
 
   @override
@@ -64,12 +63,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void configureDio() {
-    dio.options.baseUrl = Env.baseUrl;
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 3);
-  }
-
   Future<void> login() async {
     Response response = await dio.post('/user/authenticate', data: {
       'mobileNumber': mobileNumberController.text,
@@ -91,8 +84,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    configureDio();
-
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

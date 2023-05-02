@@ -3,8 +3,10 @@ import 'package:online_payment_app/pages/home.dart';
 import 'package:online_payment_app/pages/login.dart';
 import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:online_payment_app/services/common.dart' show configureDio;
 
 void main() {
+  configureDio();
   runApp(MaterialApp(
     builder: FToastBuilder(),
     debugShowCheckedModeBanner: false,

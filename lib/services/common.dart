@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:online_payment_app/env/env.dart';
+
+final dio = Dio();
+
+void configureDio() {
+  dio.options.baseUrl = Env.baseUrl;
+  dio.options.connectTimeout = const Duration(seconds: 5);
+  dio.options.receiveTimeout = const Duration(seconds: 3);
+}
 
 class BaseCard extends StatelessWidget {
   final Widget child;

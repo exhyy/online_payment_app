@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:online_payment_app/services/common.dart';
-import 'package:online_payment_app/env/env.dart';
+import 'package:dio/dio.dart' show Response;
 
 class PaymentList extends StatefulWidget {
   const PaymentList({super.key, required this.accountId});
@@ -13,20 +12,12 @@ class PaymentList extends StatefulWidget {
 }
 
 class _PaymentListState extends State<PaymentList> {
-  final dio = Dio();
   List<Map> allPayments = [];
 
   @override
   void initState() {
     super.initState();
-    _configureDio();
     _getData();
-  }
-
-  void _configureDio() {
-    dio.options.baseUrl = Env.baseUrl;
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 3);
   }
 
   void _getData() async {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:online_payment_app/services/common.dart';
-import 'package:dio/dio.dart';
-import 'package:online_payment_app/env/env.dart';
+import 'package:dio/dio.dart' show Response;
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.mobileNumber});
@@ -14,7 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final dio = Dio();
   String balance = '';
   List<int> accountIds = [];
   List<Map> recentPayments = [];
@@ -22,14 +20,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _configureDio();
     _getData();
-  }
-
-  void _configureDio() {
-    dio.options.baseUrl = Env.baseUrl;
-    dio.options.connectTimeout = const Duration(seconds: 5);
-    dio.options.receiveTimeout = const Duration(seconds: 3);
   }
 
   void _getData() async {
