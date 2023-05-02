@@ -17,48 +17,12 @@ class _InfomationModifyState extends State<InfomationModify> {
   final TextEditingController _nameController = TextEditingController();
   String _gender = 'unknown';
   String _birthday = '请选择日期';
-  late FToast _fToast;
+  final FToast _fToast = FToast();
 
   @override
   void initState() {
     super.initState();
-    _fToast = FToast();
     _fToast.init(context);
-  }
-
-  void _showToast(Text text, bool success) {
-    Color color = Colors.greenAccent;
-    Icon icon = const Icon(Icons.check);
-    if (success == false) {
-      color = Colors.redAccent;
-    }
-    if (success == false) {
-      icon = const Icon(Icons.close);
-    }
-
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: color,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          icon,
-          const SizedBox(
-            width: 12.0,
-          ),
-          text,
-        ],
-      ),
-    );
-
-    _fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: const Duration(seconds: 2),
-    );
   }
 
   @override
@@ -177,7 +141,7 @@ class _InfomationModifyState extends State<InfomationModify> {
               ElevatedButton(
                 onPressed: () async {
                   if (_nameController.text == '' || _birthday == '请选择日期') {
-                    _showToast(const Text('信息不完整'), false);
+                    showToast(_fToast, const Text('信息不完整'), 'fail');
                   } else {
                     Response response =
                         await dio.post('/account/info/edit', data: {
@@ -187,9 +151,9 @@ class _InfomationModifyState extends State<InfomationModify> {
                       'birthday': _birthday,
                     });
                     if (response.statusCode == 200) {
-                      _showToast(const Text('修改成功'), true);
+                      showToast(_fToast, const Text('修改成功'), 'success');
                     } else {
-                      _showToast(const Text('修改失败'), false);
+                      showToast(_fToast, const Text('修改失败'), 'fail');
                     }
                   }
                 },
