@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_payment_app/pages/home.dart';
+import 'package:online_payment_app/pages/register.dart';
 import 'package:online_payment_app/services/common.dart';
 import 'package:dio/dio.dart' show Response;
 
@@ -79,6 +80,26 @@ class _LoginState extends State<Login> {
               ),
               style: const TextStyle(
                 fontSize: 20,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(
+                        builder: (context) => const Register(),
+                      ))
+                      .then(
+                        (value) => _fToast.init(context),
+                      );
+                },
+                child: const Text(
+                  '注册账号',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 50),

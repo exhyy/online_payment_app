@@ -10,7 +10,7 @@ void main() {
   runApp(MaterialApp(
     builder: FToastBuilder(),
     debugShowCheckedModeBanner: false,
-    initialRoute: '/home',
+    initialRoute: '/login',
     routes: {
       '/login': (context) => const Login(),
       '/home': (context) => const Home(mobileNumber: '12345678909'),
