@@ -257,11 +257,11 @@ class RegisterTileLeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
+      width: 120,
       child: Text(
         text,
         style: const TextStyle(
-          fontSize: 24,
+          fontSize: 22,
         ),
       ),
     );
