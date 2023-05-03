@@ -112,9 +112,9 @@ class _InfomationModifyState extends State<InfomationModify> {
                         DateTime? datePicked =
                             await DatePicker.showSimpleDatePicker(
                           context,
-                          initialDate: DateTime(2000),
+                          initialDate: DateTime.now(),
                           firstDate: DateTime(1940),
-                          lastDate: DateTime(2023),
+                          lastDate: DateTime.now(),
                           dateFormat: 'yyyy-MMMM-dd',
                           locale: DateTimePickerLocale.zh_cn,
                           looping: false,
@@ -141,7 +141,7 @@ class _InfomationModifyState extends State<InfomationModify> {
               ElevatedButton(
                 onPressed: () async {
                   if (_nameController.text == '' || _birthday == '请选择日期') {
-                    showToast(_fToast, const Text('信息不完整'), 'fail');
+                    showToast(_fToast, '信息不完整', ToastType.fail);
                   } else {
                     Response response =
                         await dio.post('/account/info/edit', data: {
@@ -151,9 +151,9 @@ class _InfomationModifyState extends State<InfomationModify> {
                       'birthday': _birthday,
                     });
                     if (response.statusCode == 200) {
-                      showToast(_fToast, const Text('修改成功'), 'success');
+                      showToast(_fToast, '修改成功', ToastType.success);
                     } else {
-                      showToast(_fToast, const Text('修改失败'), 'fail');
+                      showToast(_fToast, '修改失败', ToastType.fail);
                     }
                   }
                 },

@@ -11,23 +11,36 @@ void configureDio() {
   dio.options.receiveTimeout = const Duration(seconds: 3);
 }
 
-void showToast(FToast fToast, Text text, String type) {
+enum ToastType {
+  success,
+  fail,
+}
+
+void showToast(FToast fToast, String text, ToastType type) {
+  late Color backgroundColor;
   late Color color;
   late Icon icon;
-  if (type == 'success') {
-    color = Colors.greenAccent;
-    icon = const Icon(Icons.check);
-  }
-  else if (type == 'fail') {
-    color = Colors.redAccent;
-    icon = const Icon(Icons.close);
+  if (type == ToastType.success) {
+    backgroundColor = Colors.greenAccent;
+    color = Colors.black;
+    icon = Icon(
+      Icons.check,
+      color: color,
+    );
+  } else if (type == ToastType.fail) {
+    backgroundColor = Colors.redAccent;
+    color = Colors.white;
+    icon = Icon(
+      Icons.close,
+      color: color,
+    );
   }
 
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(25.0),
-      color: color,
+      color: backgroundColor,
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,
@@ -36,7 +49,13 @@ void showToast(FToast fToast, Text text, String type) {
         const SizedBox(
           width: 12.0,
         ),
-        text,
+        Text(
+          text,
+          style: TextStyle(
+            color: color,
+            fontSize: 18,
+          ),
+        ),
       ],
     ),
   );
@@ -84,6 +103,7 @@ class MyScaffold extends StatelessWidget {
         icon: const Icon(Icons.chevron_left),
         iconSize: 45,
         color: const Color.fromRGBO(160, 160, 160, 1.0),
+        splashRadius: 25,
         onPressed: () => Navigator.of(context).pop(),
       );
     }

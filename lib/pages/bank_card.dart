@@ -41,8 +41,9 @@ class _BankCardState extends State<BankCard> {
         icon: const Icon(
           Icons.add_circle_outline,
           color: Color.fromRGBO(160, 160, 160, 1.0),
-          size: 32,
         ),
+        iconSize: 34,
+        splashRadius: 25,
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
@@ -87,10 +88,10 @@ class _BankCardState extends State<BankCard> {
                             'number': bankCardInfo[index]['number']
                           });
                           if (response.statusCode == 200) {
-                            showToast(_fToast, const Text('删除成功'), 'success');
+                            showToast(_fToast, '删除成功', ToastType.success);
                             _getData();
                           } else {
-                            showToast(_fToast, const Text('删除失败'), 'fail');
+                            showToast(_fToast, '删除失败', ToastType.fail);
                           }
                         },
                         backgroundColor: const Color.fromRGBO(190, 48, 48, 1),

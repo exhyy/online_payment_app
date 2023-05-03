@@ -118,13 +118,13 @@ class _BankCardAddState extends State<BankCardAdd> {
                         DateTime? datePicked =
                             await DatePicker.showSimpleDatePicker(
                           context,
-                          initialDate: DateTime(2000),
+                          initialDate: DateTime(2022),
                           firstDate: DateTime(1940),
-                          lastDate: DateTime(2050),
+                          lastDate: DateTime(2050, 12, 31),
                           dateFormat: 'yyyy-MMMM-dd',
                           locale: DateTimePickerLocale.zh_cn,
                           looping: false,
-                          titleText: '选择生日',
+                          titleText: '选择到期时间',
                           confirmText: '确定',
                           cancelText: '取消',
                         );
@@ -147,7 +147,7 @@ class _BankCardAddState extends State<BankCardAdd> {
               ElevatedButton(
                 onPressed: () async {
                   if (_bankNameController.text == '' || _cardNumberController.text == '' || _expirationDate == '请选择日期') {
-                    showToast(_fToast, const Text('信息不完整'), 'fail');
+                    showToast(_fToast, '信息不完整', ToastType.fail);
                   } else {
                     Response response =
                         await dio.post('/account/bankcard/add', data: {
@@ -158,9 +158,9 @@ class _BankCardAddState extends State<BankCardAdd> {
                       'expirationDate': _expirationDate,
                     });
                     if (response.statusCode == 200) {
-                      showToast(_fToast, const Text('添加成功'), 'success');
+                      showToast(_fToast, '添加成功', ToastType.success);
                     } else {
-                      showToast(_fToast, const Text('添加失败'), 'fail');
+                      showToast(_fToast, '添加失败', ToastType.fail);
                     }
                   }
                 },

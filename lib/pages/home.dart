@@ -238,7 +238,7 @@ class HomeButton extends StatelessWidget {
         children: [
           Image.asset(
             assetPath,
-            width: 90,
+            width: 85,
           ),
           Text(
             title,
