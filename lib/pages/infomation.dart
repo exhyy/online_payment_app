@@ -24,7 +24,7 @@ class _InfomationState extends State<Infomation> {
   void _getData() async {
     Response response =
         await dio.post('/account/info', data: {'accountId': widget.accountId});
-    info = response.data.cast<Map>();
+    info = response.data['data'].cast<Map>();
 
     setState(() {});
   }

@@ -150,10 +150,10 @@ class _InfomationModifyState extends State<InfomationModify> {
                       'gender': _gender,
                       'birthday': _birthday,
                     });
-                    if (response.statusCode == 200) {
+                    if (response.data['errCode'] == 0) {
                       showToast(_fToast, '修改成功', ToastType.success);
                     } else {
-                      showToast(_fToast, '修改失败', ToastType.fail);
+                      showToast(_fToast, '未知错误', ToastType.fail);
                     }
                   }
                 },

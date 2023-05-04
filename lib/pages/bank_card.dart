@@ -28,7 +28,7 @@ class _BankCardState extends State<BankCard> {
   void _getData() async {
     Response response = await dio
         .post('/account/bankcard', data: {'accountId': widget.accountId});
-    bankCardInfo = response.data.cast<Map>();
+    bankCardInfo = response.data['data'].cast<Map>();
 
     setState(() {});
   }
@@ -87,11 +87,11 @@ class _BankCardState extends State<BankCard> {
                             'accountId': widget.accountId,
                             'number': bankCardInfo[index]['number']
                           });
-                          if (response.statusCode == 200) {
+                          if (response.data['errCode'] == 0) {
                             showToast(_fToast, '删除成功', ToastType.success);
                             _getData();
                           } else {
-                            showToast(_fToast, '删除失败', ToastType.fail);
+                            showToast(_fToast, '未知错误', ToastType.fail);
                           }
                         },
                         backgroundColor: const Color.fromRGBO(190, 48, 48, 1),

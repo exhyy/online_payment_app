@@ -23,7 +23,7 @@ class _PaymentListState extends State<PaymentList> {
   void _getData() async {
     Response response = await dio.post('/account/payment/preview',
         data: {'accountId': widget.accountId});
-    allPayments = response.data.cast<Map>();
+    allPayments = response.data['data'].cast<Map>();
     allPayments.sort((a, b) => a['time'].compareTo(b['time']));
     allPayments = allPayments.reversed.toList();
 

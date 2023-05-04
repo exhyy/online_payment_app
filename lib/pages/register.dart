@@ -213,8 +213,12 @@ class _RegisterState extends State<Register> {
                             'gender': _gender,
                             'birthday': _birthday
                           });
-                          if (response.statusCode == 200) {
+                          if (response.data['errCode'] == 0) {
                             showToast(_fToast, '注册成功', ToastType.success);
+                          } else if (response.data['errCode'] == 1) {
+                            showToast(_fToast, '用户已存在', ToastType.fail);
+                          } else {
+                            showToast(_fToast, '未知错误', ToastType.fail);
                           }
                         }
                       }

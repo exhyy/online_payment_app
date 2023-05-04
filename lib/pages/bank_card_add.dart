@@ -157,10 +157,12 @@ class _BankCardAddState extends State<BankCardAdd> {
                       'type': _cardType,
                       'expirationDate': _expirationDate,
                     });
-                    if (response.statusCode == 200) {
+                    if (response.data['errCode'] == 0) {
                       showToast(_fToast, '添加成功', ToastType.success);
+                    } else if (response.data['errCode'] == 1) {
+                      showToast(_fToast, '该银行卡已存在', ToastType.fail);
                     } else {
-                      showToast(_fToast, '添加失败', ToastType.fail);
+                      showToast(_fToast, '未知错误', ToastType.fail);
                     }
                   }
                 },

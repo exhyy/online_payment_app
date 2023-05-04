@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
       'mobileNumber': mobileNumberController.text,
       'password': passwordController.text
     });
-    if (response.data.toString() == 'pass' && mounted) {
+    if (response.data['data'].toString() == 'pass' && mounted) {
       showToast(_fToast, '登录成功', ToastType.success);
       // 跳转到Home并且不允许返回
       Navigator.of(context).pushAndRemoveUntil(

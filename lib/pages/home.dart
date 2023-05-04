@@ -29,18 +29,18 @@ class _HomeState extends State<Home> {
     // 获取当前user所有账户id
     Response response = await dio
         .post('/account/getall', data: {'mobileNumber': widget.mobileNumber});
-    accountIds = response.data.cast<int>();
+    accountIds = response.data['data'].cast<int>();
 
     // 获取首个账户id的余额
     response =
         await dio.post('/account/balance', data: {'accountId': accountIds[0]});
-    balance = response.data['balance'];
+    balance = response.data['data'];
     balance = '￥$balance';
 
     // 获取“近期交易”，记录不超过3条
     response = await dio
         .post('/account/payment/preview', data: {'accountId': accountIds[0]});
-    List<Map> allPayments = response.data.cast<Map>();
+    List<Map> allPayments = response.data['data'].cast<Map>();
     allPayments.sort((a, b) => a['time'].compareTo(b['time']));
     for (var i = allPayments.length - 1; i >= 0; i--) {
       recentPayments.add(allPayments[i]);
