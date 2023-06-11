@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_payment_app/pages/bank_card.dart';
 import 'package:online_payment_app/pages/collection.dart';
+import 'package:online_payment_app/pages/payment_scan.dart';
 import 'package:online_payment_app/pages/infomation.dart';
 import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:online_payment_app/services/common.dart';
@@ -64,10 +65,16 @@ class _HomeState extends State<Home> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const HomeButton(
+                HomeButton(
                   title: '付款',
                   assetPath: 'assets/icons/cash.png',
-                  onPressed: null,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PaymentScan(
+                        accountId: accountIds[0],
+                      ),
+                    ));
+                  },
                 ),
                 HomeButton(
                   title: '收款',
