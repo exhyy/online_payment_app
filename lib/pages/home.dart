@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
                   assetPath: 'assets/icons/cash.png',
                 ),
                 HomeButton(
-                  title: '付款',
+                  title: '收款',
                   assetPath: 'assets/icons/money-bag-e.png',
                 )
               ],
