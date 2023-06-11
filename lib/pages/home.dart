@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_payment_app/pages/bank_card.dart';
+import 'package:online_payment_app/pages/collection.dart';
 import 'package:online_payment_app/pages/infomation.dart';
 import 'package:online_payment_app/pages/payment_list.dart';
 import 'package:online_payment_app/services/common.dart';
@@ -62,14 +63,22 @@ class _HomeState extends State<Home> {
           BaseCard(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                HomeButton(
+              children: [
+                const HomeButton(
                   title: '付款',
                   assetPath: 'assets/icons/cash.png',
+                  onPressed: null,
                 ),
                 HomeButton(
                   title: '收款',
                   assetPath: 'assets/icons/money-bag-e.png',
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Collection(
+                        accountId: accountIds[0],
+                      ),
+                    ));
+                  },
                 )
               ],
             ),
@@ -221,11 +230,13 @@ class HomeListTile extends StatelessWidget {
 class HomeButton extends StatelessWidget {
   final String assetPath;
   final String title;
+  final void Function()? onPressed;
 
   const HomeButton({
     super.key,
     required this.assetPath,
     required this.title,
+    required this.onPressed,
   });
 
   @override
@@ -234,19 +245,22 @@ class HomeButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         vertical: 20,
       ),
-      child: Column(
-        children: [
-          Image.asset(
-            assetPath,
-            width: 85,
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 26,
+      child: MaterialButton(
+        onPressed: onPressed,
+        child: Column(
+          children: [
+            Image.asset(
+              assetPath,
+              width: 85,
             ),
-          )
-        ],
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 26,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
