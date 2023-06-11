@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_payment_app/pages/home.dart';
 import 'package:online_payment_app/pages/register.dart';
 import 'package:online_payment_app/services/common.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart' show Response;
 
 class Login extends StatefulWidget {
@@ -22,9 +23,28 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     _fToast.init(context);
+    readLocalData();
+  }
+
+  void readLocalData() async {
+    // 读取本地保存的账号和密码
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? mobileNumber = prefs.getString('mobileNumber');
+    if (mobileNumber != null) {
+      mobileNumberController.text = mobileNumber;
+    }
+    String? password = prefs.getString('password');
+    if (password != null) {
+      passwordController.text = password;
+    }
   }
 
   Future<void> login() async {
+    // 将账号和密码写入本地
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('mobileNumber', mobileNumberController.text);
+    await prefs.setString('password', passwordController.text);
+
     Response response = await dio.post('/user/authenticate', data: {
       'mobileNumber': mobileNumberController.text,
       'password': passwordController.text
