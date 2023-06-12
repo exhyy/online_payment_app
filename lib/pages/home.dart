@@ -167,7 +167,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         trailing: Text(
-                          '-￥${recentPayments[index]['amount'].toString()}',
+                          '${recentPayments[index]['symbol'].toString()}￥${recentPayments[index]['amount'].toString()}',
                           style: const TextStyle(
                             fontSize: 22,
                           ),

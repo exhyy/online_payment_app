@@ -58,7 +58,7 @@ class _PaymentListState extends State<PaymentList> {
                   ),
                 ),
                 trailing: Text(
-                  '-￥${allPayments[index]['amount'].toString()}',
+                  '${allPayments[index]['symbol'].toString()}￥${allPayments[index]['amount'].toString()}',
                   style: const TextStyle(
                     fontSize: 22,
                   ),
