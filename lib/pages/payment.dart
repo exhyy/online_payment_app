@@ -220,6 +220,8 @@ class _PaymentState extends State<Payment> {
                           showToast(_fToast, '对方取消交易', ToastType.fail);
                         } else if (response.data['errCode'] == 2) {
                           showToast(_fToast, '交易权限错误', ToastType.fail);
+                        } else if (response.data['errCode'] == 3) {
+                          showToast(_fToast, '余额不足', ToastType.fail);
                         } else {
                           showToast(_fToast, '未知错误', ToastType.fail);
                         }
