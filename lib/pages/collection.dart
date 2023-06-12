@@ -20,6 +20,7 @@ class _CollectionState extends State<Collection> {
   QrImageView? qrImage;
   bool tempPaymentCreated = false;
   bool timerStop = true;
+  String payerName = '';
 
   @override
   void initState() {
@@ -33,6 +34,15 @@ class _CollectionState extends State<Collection> {
         if (response.data['errCode'] != 0 || timerStop) {
           timerStop = true;
           timer.cancel();
+        } else {
+          if (response.data['data'] != null) {
+            if (response.data['data'] != payerName) {
+              payerName = response.data['data'];
+              setState(() {});
+            }
+          } else {
+            print(response.data['data']);
+          }
         }
       }
     });
@@ -62,10 +72,27 @@ class _CollectionState extends State<Collection> {
 
   @override
   Widget build(BuildContext context) {
+    String info = '';
+    if (payerName != '') {
+      info = '$payerName 正在支付';
+    }
+
     return MyScaffold(
       title: '收款',
       body: Center(
-        child: qrImage,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(child: qrImage),
+            const SizedBox(height: 40),
+            Text(
+              info,
+              style: const TextStyle(
+                fontSize: 22,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
