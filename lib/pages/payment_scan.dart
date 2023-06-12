@@ -32,13 +32,17 @@ class _PaymentScanState extends State<PaymentScan> {
           final List<Barcode> barcodes = capture.barcodes;
           if (tempPaymentKey != barcodes[0].rawValue) {
             tempPaymentKey = barcodes[0].rawValue;
-            Response response = await dio.post(
-                '/account/payment/temp/getstatus',
-                data: {'tempPaymentKey': tempPaymentKey});
+            Response response = await dio.post('/account/payment/temp/lock',
+                data: {
+                  'tempPaymentKey': tempPaymentKey,
+                  'lockerId': widget.accountId
+                });
             if (response.data['errCode'] == 0) {
-              showToast(_fToast, response.data['data'], ToastType.success);
-            } else {
+              showToast(_fToast, '上锁成功', ToastType.success);
+            } else if (response.data['errCode'] == 1) {
               showToast(_fToast, '交易不存在', ToastType.fail);
+            } else if (response.data['errCode'] == 2) {
+              showToast(_fToast, '交易进行中', ToastType.fail);
             }
           }
         },
