@@ -23,6 +23,19 @@ class _PaymentState extends State<Payment> {
   int _payeeAccondId = -1;
   bool _gotData = false;
   bool _timerStop = true;
+  String _method = 'balance';
+  List<DropdownMenuItem<String>> _dropdownMenuItems = [
+    const DropdownMenuItem(
+      value: 'balance',
+      child: Text(
+        '余额',
+        style: TextStyle(
+          fontSize: 22,
+        ),
+      ),
+    )
+  ];
+
   final FToast _fToast = FToast();
 
   @override
@@ -60,6 +73,36 @@ class _PaymentState extends State<Payment> {
       _payeeName = response.data['data']['name'];
       _payeeAccondId = response.data['data']['accountId'];
     }
+
+    response = await dio
+        .post('/account/bankcard', data: {'accountId': widget.accountId});
+    List<Map> bankCardInfo = response.data['data'].cast<Map>();
+    _dropdownMenuItems = [
+      const DropdownMenuItem(
+        value: 'balance',
+        child: Text(
+          '余额',
+          style: TextStyle(
+            fontSize: 22,
+          ),
+        ),
+      )
+    ];
+    for (var i = 0; i < bankCardInfo.length; i++) {
+      String bankName = bankCardInfo[i]['bankName'];
+      String number = bankCardInfo[i]['number'];
+      number = number.substring(number.length - 4);
+      _dropdownMenuItems.add(DropdownMenuItem(
+        value: 'bankCard-$i',
+        child: Text(
+          '$bankName($number)',
+          style: const TextStyle(
+            fontSize: 22,
+          ),
+        ),
+      ));
+    }
+
     _gotData = true;
     _timerStop = false;
     setState(() {});
@@ -133,18 +176,43 @@ class _PaymentState extends State<Payment> {
                             fontSize: 45,
                           ),
                         ),
+                        const SizedBox(height: 28),
+                        ListTile(
+                          leading: const Text(
+                            '付款方式',
+                            style: TextStyle(
+                              fontSize: 22,
+                            ),
+                          ),
+                          title: DropdownButton(
+                            value: _method,
+                            isExpanded: true,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() {
+                                  _method = value;
+                                });
+                              }
+                            },
+                          ),
+                        )
                       ],
                     ),
                     const SizedBox(height: 40),
                     ElevatedButton(
                       onPressed: () async {
+                        String method = 'Balance';
+                        if (_method.startsWith('bankCard-')) {
+                          method = 'Bank Card';
+                        }
                         Response response =
                             await dio.post('/account/payment/create', data: {
                           'tempPaymentKey': widget.tempPaymentKey,
                           'payerAccountId': widget.accountId,
                           'payeeAccountId': _payeeAccondId,
                           'amount': _amountController.text,
-                          'method': 'QR Code'
+                          'method': method,
                         });
                         if (response.data['errCode'] == 0) {
                           showToast(_fToast, '支付成功', ToastType.success);
