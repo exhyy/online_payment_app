@@ -51,6 +51,8 @@ class _PaymentScanState extends State<PaymentScan> {
               showToast(_fToast, '交易不存在', ToastType.fail);
             } else if (response.data['errCode'] == 2) {
               showToast(_fToast, '交易进行中', ToastType.fail);
+            } else if (response.data['errCode'] == 3) {
+              showToast(_fToast, '不能与自己交易', ToastType.fail);
             }
           }
         },
