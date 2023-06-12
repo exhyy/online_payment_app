@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
         .post('/account/payment/preview', data: {'accountId': accountIds[0]});
     List<Map> allPayments = response.data['data'].cast<Map>();
     allPayments.sort((a, b) => a['time'].compareTo(b['time']));
+    recentPayments = [];
     for (var i = allPayments.length - 1; i >= 0; i--) {
       recentPayments.add(allPayments[i]);
       if (i <= allPayments.length - 3) {
@@ -69,22 +70,26 @@ class _HomeState extends State<Home> {
                   title: '付款',
                   assetPath: 'assets/icons/cash.png',
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PaymentScan(
-                        accountId: accountIds[0],
-                      ),
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                          builder: (context) => PaymentScan(
+                            accountId: accountIds[0],
+                          ),
+                        ))
+                        .then((value) => _getData());
                   },
                 ),
                 HomeButton(
                   title: '收款',
                   assetPath: 'assets/icons/money-bag-e.png',
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Collection(
-                        accountId: accountIds[0],
-                      ),
-                    ));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
+                          builder: (context) => Collection(
+                            accountId: accountIds[0],
+                          ),
+                        ))
+                        .then((value) => _getData());
                   },
                 )
               ],

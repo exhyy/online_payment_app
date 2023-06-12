@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:online_payment_app/pages/payment.dart';
 import 'package:online_payment_app/services/common.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:dio/dio.dart' show Response;
@@ -23,6 +24,12 @@ class _PaymentScanState extends State<PaymentScan> {
     _fToast.init(context);
   }
 
+  void _nagivateToPayment() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => Payment(
+            accountId: widget.accountId, tempPaymentKey: tempPaymentKey!)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -38,7 +45,8 @@ class _PaymentScanState extends State<PaymentScan> {
                   'lockerId': widget.accountId
                 });
             if (response.data['errCode'] == 0) {
-              showToast(_fToast, '上锁成功', ToastType.success);
+              showToast(_fToast, '扫码成功', ToastType.success);
+              _nagivateToPayment();
             } else if (response.data['errCode'] == 1) {
               showToast(_fToast, '交易不存在', ToastType.fail);
             } else if (response.data['errCode'] == 2) {
