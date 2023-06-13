@@ -40,8 +40,6 @@ class _CollectionState extends State<Collection> {
               payerName = response.data['data'];
               setState(() {});
             }
-          } else {
-            print(response.data['data']);
           }
         }
       }
