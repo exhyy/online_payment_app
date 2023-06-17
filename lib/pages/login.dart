@@ -74,7 +74,7 @@ class _LoginState extends State<Login> {
           children: [
             const Center(
               child: Text(
-                '在线支付APP',
+                '快捷支付',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
